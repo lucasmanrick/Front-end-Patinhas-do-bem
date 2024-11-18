@@ -1,4 +1,19 @@
 const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
+
+await fetch(`${apiDeploy}/teste`, {
+  method: "get",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(dadosLogin),
+}).then(e => {
+  return e.json()
+}).then(resultado => {
+   console.log(resultado)
+});
+
+
+
 // Seleciona os botões de "Entrar" e "Cadastrar" no documento
 var btnSignin = document.querySelector("#signin");
 var btnSignup = document.querySelector("#signup");
@@ -119,7 +134,7 @@ async function enviarDadosLogin(event) {
       },
       body: JSON.stringify(dadosLogin),
     }).then(e => {
-
+      return e.json()
     }).then(resultado => {
       if (resultado.auth) {
         alert("Login realizado com sucesso!");
