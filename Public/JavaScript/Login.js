@@ -112,22 +112,23 @@ async function enviarDadosLogin(event) {
   };
 
   try {
-    const resposta = await fetch(`${apiDeploy}/Login`, {
+  await fetch(`${apiDeploy}/Login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dadosLogin),
-    });
+    }).then(e => {
 
-    const resultado = await resposta.json();
-    if (resultado.auth) {
-      alert("Login realizado com sucesso!");
-      // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
-      window.location.href = "../../Pages/Feed.html";
-    } else {
-      alert(`Erro: ${resultado.error}`);
-    }
+    }).then(resultado => {
+      if (resultado.auth) {
+        alert("Login realizado com sucesso!");
+        // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
+        window.location.href = "../../Pages/Feed.html";
+      } else {
+        alert(`Erro: ${resultado.error}`);
+      }
+    });
   } catch (erro) {
     console.error("Erro ao autenticar usuário:", erro);
   }
