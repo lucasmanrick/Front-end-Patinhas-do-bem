@@ -60,19 +60,6 @@ const preencherFormulario = (endereco) => {
   input4.disabled = false;
 };
 
-
-// fetch(`${apiDeploy}/teste`, {
-//   method: "get",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify(dadosLogin),
-// }).then(e => {
-//   return e.json()
-// }).then(resultado => {
-//    console.log(resultado)
-// });
-
 // Função para verificar se a string contém apenas números
 const eNumero = (numero) => /^[0-9]+$/.test(numero);
 
@@ -117,7 +104,7 @@ document.getElementById("cep").addEventListener("focusout", pesquisarCep);
 
 //--------------------- FUNÇÃO PARA VALIDAR O EMAIL E A SENHA QUE FOR DIGITADO ----------------------------------------//
 
- function enviarDadosLogin(event) {
+async function enviarDadosLogin(event) {
   event.preventDefault(); // Evita o envio padrão do formulário
 
   const dadosLogin = {
@@ -126,23 +113,22 @@ document.getElementById("cep").addEventListener("focusout", pesquisarCep);
   };
 
   try {
-  fetch(`${apiDeploy}/Login`, {
+    const resposta = await fetch(`${apiDeploy}/Login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dadosLogin),
-    }).then(e => {
-      return e.json()
-    }).then(resultado => {
-      if (resultado.auth) {
-        alert("Login realizado com sucesso!");
-        // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
-        window.location.href = "../../Pages/Feed.html";
-      } else {
-        alert(`Erro: ${resultado.error}`);
-      }
     });
+
+    const resultado = await resposta.json();
+    if (resultado.auth) {
+      alert("Login realizado com sucesso!");
+      // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
+      window.location.href = "../../Pages/Feed.html";
+    } else {
+      alert(`Erro: ${resultado.error}`);
+    }
   } catch (erro) {
     console.error("Erro ao autenticar usuário:", erro);
   }
