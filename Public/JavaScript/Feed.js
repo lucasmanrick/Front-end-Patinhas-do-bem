@@ -680,8 +680,7 @@ async function getMostRecentPosts() {
     .then(async function (myBlob) {
 
       if (myBlob.success) {
-        document.getElementById("mural-content").innerHTML = `
-                <!-- Botão para abrir o modal -->
+        document.getElementById("mural-content").innerHTML = ` 
         <button id="open-modal" class="btn btn-primary" onclick="openPublishModal()">Criar
         Publicação</button>
         <!-- Modal para criar uma publicação -->

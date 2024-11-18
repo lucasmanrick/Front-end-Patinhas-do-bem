@@ -125,7 +125,7 @@ async function enviarDadosLogin(event) {
     if (resultado.auth) {
       alert("Login realizado com sucesso!");
       // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
-      window.location.href = "../Pages/Feed.html";
+      // window.location.href = "../Pages/Feed.html";
     } else {
       alert(`Erro: ${resultado.error}`);
     }
