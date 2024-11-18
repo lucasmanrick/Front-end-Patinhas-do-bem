@@ -61,17 +61,17 @@ const preencherFormulario = (endereco) => {
 };
 
 
-fetch(`${apiDeploy}/teste`, {
-  method: "get",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(dadosLogin),
-}).then(e => {
-  return e.json()
-}).then(resultado => {
-   console.log(resultado)
-});
+// fetch(`${apiDeploy}/teste`, {
+//   method: "get",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify(dadosLogin),
+// }).then(e => {
+//   return e.json()
+// }).then(resultado => {
+//    console.log(resultado)
+// });
 
 // Função para verificar se a string contém apenas números
 const eNumero = (numero) => /^[0-9]+$/.test(numero);
