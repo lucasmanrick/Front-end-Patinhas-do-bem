@@ -1,4 +1,4 @@
-
+const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
 
 document.addEventListener('click', function (event) {
   if (event.target && event.target.classList.contains('comment-button')) {
@@ -87,7 +87,7 @@ inputs.forEach(input => {
 
 //MEUS DADOS
 function getMyData() {
-  fetch("/MyProfile", {
+  fetch(`${apiDeploy}/MyProfile`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -173,7 +173,7 @@ function enviarMensagem() {
   if (chatInput) {
     const storageContact = JSON.parse(localStorage.getItem('talkingNow'))
 
-    fetch("/EnviaMensagem", {
+    fetch(`${apiDeploy}/EnviaMensagem`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -226,7 +226,7 @@ function abrirChat(dataUsers) {
   localStorage.clear('talkingNow')
 
   localStorage.setItem('talkingNow', JSON.stringify({ contactID: dataUsers.id, nameUser: dataUsers.className }))
-  fetch(`/MensagensContato/${dataUsers.id}`, {
+  fetch(`${apiDeploy}/MensagensContato/${dataUsers.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -285,7 +285,7 @@ let postGap = 0;
 let PetGapUpgrade = true;
 
 async function getingPets() {
-  await fetch(`/PetsAdocao`, {
+  await fetch(`${apiDeploy}/PetsAdocao`, {
     method: 'POST',
     body: JSON.stringify({ 'gapQuantity': petGap }),
     headers: {
@@ -349,7 +349,7 @@ async function getingPets() {
 
 async function showInterestOnPet(PetID) {
   console.log(PetID.id)
-  fetch(`/DemonstrarInteressePet`, {
+  fetch(`${apiDeploy}/DemonstrarInteressePet`, {
     method: 'POST',
     body: JSON.stringify({ 'PetID': PetID.id }),
     headers: {
@@ -374,7 +374,7 @@ async function showInterestOnPet(PetID) {
 // função para pegar meus contatos
 
 async function getingMyContacts() {
-  await fetch(`/MeusContatos`, {
+  await fetch(`${apiDeploy}/MeusContatos`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -414,7 +414,7 @@ async function getingMyContacts() {
 // função para pegar pets que demonstrei interesse
 
 async function getMyInterests() {
-  await fetch(`/MeusInteresses`, {
+  await fetch(`${apiDeploy}/MeusInteresses`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -478,7 +478,7 @@ function perfilUser(userID) {
 // função para remover o interesse em algum pet do qual ja demonstrei interesse
 async function removeInterest(event) {
   console.log("clicou")
-  await fetch(`/RemoverInteressePet`, {
+  await fetch(`${apiDeploy}/RemoverInteressePet`, {
     method: 'DELETE',
     body: JSON.stringify({ "PetID": event.id }),
     headers: {
@@ -505,7 +505,7 @@ let notifiesOnly = 0;
 let friendInvites = 0;
 
 async function getMyNotifies() {
-  await fetch(`/Notificacoes`, {
+  await fetch(`${apiDeploy}/Notificacoes`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -552,7 +552,7 @@ async function getMyNotifies() {
 
 
 async function checkNotifies() {
-  await fetch(`/MarcarNotificacoesVisto`, {
+  await fetch(`${apiDeploy}/MarcarNotificacoesVisto`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -574,7 +574,7 @@ async function checkNotifies() {
 
 
 async function myFriendInvites() {
-  await fetch(`/MinhasSolicitacoes`, {
+  await fetch(`${apiDeploy}/MinhasSolicitacoes`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -623,7 +623,7 @@ async function myFriendInvites() {
 
 
 async function acceptInvite(event) {
-  await fetch(`/AceitaSolicitacaoAmizade`, {
+  await fetch(`${apiDeploy}/AceitaSolicitacaoAmizade`, {
     method: 'POST',
     body: JSON.stringify({ "inviteID": event.id }),
     headers: {
@@ -646,7 +646,7 @@ async function acceptInvite(event) {
 
 
 async function rejectInvite(event) {
-  await fetch(`/RemoveSolicitacao`, {
+  await fetch(`${apiDeploy}/RemoveSolicitacao`, {
     method: 'DELETE',
     body: JSON.stringify({ "inviteID": event.id }),
     headers: {
@@ -667,7 +667,7 @@ async function rejectInvite(event) {
 
 
 async function getMostRecentPosts() {
-  await fetch(`/VerPostagens`, {
+  await fetch(`${apiDeploy}/VerPostagens`, {
     method: 'POST',
     body: JSON.stringify({ "gapQuantity": postGap }),
     headers: {
@@ -794,7 +794,7 @@ async function getMostRecentPosts() {
 
 
 async function createNewPost() {
-  await fetch(`/CriarPostagem`, {
+  await fetch(`${apiDeploy}/CriarPostagem`, {
     method: 'POST',
     body: JSON.stringify({ 
       "Descricao": document.getElementById(`post-content`).value
@@ -827,7 +827,7 @@ async function createNewPost() {
 async function sendComment (postID) {
   console.log("chegou")
   console.log(document.getElementById(`inputComment-${postID}`).textContent)
-  await fetch(`/comentarPost`, {
+  await fetch(`${apiDeploy}/comentarPost`, {
     method: 'POST',
     body: JSON.stringify({ "IDPostagem": postID,
       "Texto": document.getElementById(`inputComment-${postID}`).value
@@ -852,7 +852,7 @@ async function sendComment (postID) {
 
 
 async function likePost(postID) {
-  await fetch(`/ReagirPostagem`, {
+  await fetch(`${apiDeploy}/ReagirPostagem`, {
     method: 'POST',
     body: JSON.stringify({ "IDPostagem": postID, "tipo": "like" }),
     headers: {
@@ -883,7 +883,7 @@ async function likePost(postID) {
 
 
 async function removeLikePost(PostID) {
-  await fetch(`/RemoverReacao/${PostID}`, {
+  await fetch(`${apiDeploy}/RemoverReacao/${PostID}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -902,7 +902,7 @@ async function removeLikePost(PostID) {
 
 
 async function finalSession() {
-  await fetch(`/Out`, {
+  await fetch(`${apiDeploy}/Out`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

@@ -1,3 +1,4 @@
+const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
 // Seleciona os botões de "Entrar" e "Cadastrar" no documento
 var btnSignin = document.querySelector("#signin");
 var btnSignup = document.querySelector("#signup");
@@ -18,6 +19,8 @@ btnSignup.addEventListener("click", function () {
   // Isso altera o layout para a tela de cadastro
   body.className = "sign-up-js";
 });
+
+
 
 // Habilitar modo estrito, para garantir boas práticas de programação
 ("use strict");
@@ -109,7 +112,7 @@ async function enviarDadosLogin(event) {
   };
 
   try {
-    const resposta = await fetch("/Login", {
+    const resposta = await fetch(`${apiDeploy}/Login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +139,7 @@ async function enviarDadosLogin(event) {
 
 //-------------------------------------------- VALIDAÇÃO DE CADASTRO ---------------------------------- //
 
-function validateForm(event) {
+async function validateForm(event) {
   event.preventDefault();
 
   // Campos de informações pessoais e endereço
@@ -188,7 +191,7 @@ function validateForm(event) {
   };
 
   // Envia os dados do formulário ao backend
-  fetch("/Cadastro", {
+  await fetch(`${apiDeploy}/Cadastro`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
