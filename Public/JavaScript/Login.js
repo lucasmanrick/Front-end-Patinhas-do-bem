@@ -117,7 +117,7 @@ document.getElementById("cep").addEventListener("focusout", pesquisarCep);
 
 //--------------------- FUNÇÃO PARA VALIDAR O EMAIL E A SENHA QUE FOR DIGITADO ----------------------------------------//
 
-async function enviarDadosLogin(event) {
+ function enviarDadosLogin(event) {
   event.preventDefault(); // Evita o envio padrão do formulário
 
   const dadosLogin = {
@@ -126,7 +126,7 @@ async function enviarDadosLogin(event) {
   };
 
   try {
-  await fetch(`${apiDeploy}/Login`, {
+  fetch(`${apiDeploy}/Login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
