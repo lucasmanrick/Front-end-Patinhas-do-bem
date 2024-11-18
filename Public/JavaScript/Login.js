@@ -1,19 +1,5 @@
 const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
 
- fetch(`${apiDeploy}/teste`, {
-  method: "get",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(dadosLogin),
-}).then(e => {
-  return e.json()
-}).then(resultado => {
-   console.log(resultado)
-});
-
-
-
 // Seleciona os botões de "Entrar" e "Cadastrar" no documento
 var btnSignin = document.querySelector("#signin");
 var btnSignup = document.querySelector("#signup");
@@ -73,6 +59,19 @@ const preencherFormulario = (endereco) => {
   input3.disabled = false;
   input4.disabled = false;
 };
+
+
+fetch(`${apiDeploy}/teste`, {
+  method: "get",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(dadosLogin),
+}).then(e => {
+  return e.json()
+}).then(resultado => {
+   console.log(resultado)
+});
 
 // Função para verificar se a string contém apenas números
 const eNumero = (numero) => /^[0-9]+$/.test(numero);
