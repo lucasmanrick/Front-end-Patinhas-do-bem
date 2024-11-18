@@ -1,6 +1,6 @@
 const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
 
-await fetch(`${apiDeploy}/teste`, {
+ fetch(`${apiDeploy}/teste`, {
   method: "get",
   headers: {
     "Content-Type": "application/json",
