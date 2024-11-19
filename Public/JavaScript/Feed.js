@@ -703,11 +703,7 @@ async function getMostRecentPosts() {
             <span class="close" onclick="closePublishModal()">&times;</span>
             <h2>Criar Publicação</h2>
             <textarea id="post-content" placeholder="Conteúdo da Postagem" required></textarea>
-            <input type="file" id="post-image" accept="image/*"> <!-- Campo para imagem -->
-             <label for="post-image" class="upload-icon">
-                            <img src="../../Public/Image/simbolo-de-interface-de-camera-fotografica-para-botao.png"
-                                alt="Upload" class="icon">
-                        </label>
+            <input type="file" id="post-image" accept="image/*">
             <button onclick="createNewPost()">Publicar</button>
           </div>
         </div>
@@ -790,10 +786,6 @@ async function getMostRecentPosts() {
                 <h2>Criar Publicação</h2>
                   <textarea id="post-content" placeholder="Conteúdo da Postagem" required></textarea>
                   <input type="file" id="post-image" accept="image/*"> <!-- Campo para imagem -->
-                     <label for="post-image" class="upload-icon">
-                            <img src="../../Public/Image/simbolo-de-interface-de-camera-fotografica-para-botao.png"
-                                alt="Upload" class="icon">
-                        </label>
                   <button onclick="createNewPost()">Publicar</button>
                   </div>
               </div>
