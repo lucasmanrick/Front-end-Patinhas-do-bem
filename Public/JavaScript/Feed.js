@@ -692,7 +692,7 @@ async function getMostRecentPosts() {
       return response.json();
     })
     .then(async function (myBlob) {
-
+      console.log(myBlob)
       if (myBlob.success) {
         document.getElementById("mural-content").innerHTML = ` 
         <button id="open-modal" class="btn btn-primary" onclick="openPublishModal()">Criar
