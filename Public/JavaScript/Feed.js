@@ -112,7 +112,7 @@ function getMyData() {
         Cookies.set("imagemUsuario", myBlob.meusDados.UserPicture)
 
         document.getElementById("userImage").src = `${myBlob.meusDados.UserPicture}`
-        document.getElementById("userNameContent").innerHTML = `<a href="/PerfilUser" style ="list-style:none">${myBlob.meusDados.Nome}</a>`
+        document.getElementById("userNameContent").innerHTML = `<a href="./Perfil.html" style ="list-style:none">${myBlob.meusDados.Nome}</a>`
       } else {
         window.location("/LoginPage")
       }
@@ -444,7 +444,7 @@ async function getMyInterests() {
                   </div>
       
                   <div class="formulario-do-pet">
-                    <p class="descrição" onclick="perfilUser(${e.IDDoador})"><strong>Dono do pet:</strong> <img src ="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDDoador}.jpg?alt=media" style="border-radius:50%; width:30px;heigth:30px" alt="">"</img>  <a href ="/UserPerfil"> ${e.NomeDoDono} </a></p>
+                    <p class="descrição"  onclick="perfilUser(${e.IDDoador})"><strong>Dono do pet:</strong> <img src ="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDDoador}.jpg?alt=media" style="border-radius:50%; width:30px;heigth:30px" alt="">"</img>  <a href ="./Users.html"> ${e.NomeDoDono} </a></p>
                     <p class="descrição"><strong>Tipo de Animal:</strong> ${e.TipoAnimal}</p>
                     <p class="descrição"><strong>Linhagem:</strong> ${e.Linhagem}</p>
                     <p class="descrição"><strong>Idade:</strong>  ${e.Idade}</p>
@@ -726,7 +726,7 @@ async function getMostRecentPosts() {
               </div>
 
               <div class="user-info">
-                 <a href="/PerfilUsuario" onclick="perfilUser(${e.IDUsuario})" class="user-name">${e.NomeUsuario}</a> 
+                 <a href="./Users.html" onclick="perfilUser(${e.IDUsuario})" class="user-name">${e.NomeUsuario}</a> 
                 <p class="post-date">${dataAmigavel}</p>
               </div>
 
@@ -762,7 +762,7 @@ async function getMostRecentPosts() {
               <div>
                 <div class = "userCommentContent" style="display:flex; align-items:center; gap:5px">
                   <img style ="border-radius:50%;width:30px;height:30px" src = "https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${y.IDUsuario}.jpg?alt=media"
-                  <div> <a href="perfilUser(${y.IDUsuario})" style="text-decoration:none; font-size:13px">${y.Nome}</a></div> 
+                  <div> <a href="./Users.html" onclick="perfilUser(${y.IDUsuario})" style="text-decoration:none; font-size:13px">${y.Nome}</a></div> 
                 </div>
                <p style=" display:flex;flex-direction:column"><p style="font-size:14px;color:#808080;">${y.Texto}</<p><p style="font-size:10px">${data.toLocaleString('pt-BR')}</<p></p> 
               <hr>
