@@ -90,6 +90,7 @@ function getMyData() {
   fetch(`${apiDeploy}/MyProfile`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -176,6 +177,7 @@ function enviarMensagem() {
     fetch(`${apiDeploy}/EnviaMensagem`, {
       method: 'POST',
       headers: {
+        'authorization': Cookies.get("tokenStorage"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -229,6 +231,7 @@ function abrirChat(dataUsers) {
   fetch(`${apiDeploy}/MensagensContato/${dataUsers.id}`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -289,6 +292,7 @@ async function getingPets() {
     method: 'POST',
     body: JSON.stringify({ 'gapQuantity': petGap }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -353,6 +357,7 @@ async function showInterestOnPet(PetID) {
     method: 'POST',
     body: JSON.stringify({ 'PetID': PetID.id }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -377,6 +382,7 @@ async function getingMyContacts() {
   await fetch(`${apiDeploy}/MeusContatos`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -417,6 +423,7 @@ async function getMyInterests() {
   await fetch(`${apiDeploy}/MeusInteresses`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -482,6 +489,7 @@ async function removeInterest(event) {
     method: 'DELETE',
     body: JSON.stringify({ "PetID": event.id }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -508,6 +516,7 @@ async function getMyNotifies() {
   await fetch(`${apiDeploy}/Notificacoes`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -555,6 +564,7 @@ async function checkNotifies() {
   await fetch(`${apiDeploy}/MarcarNotificacoesVisto`, {
     method: 'PUT',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -577,6 +587,7 @@ async function myFriendInvites() {
   await fetch(`${apiDeploy}/MinhasSolicitacoes`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -627,6 +638,7 @@ async function acceptInvite(event) {
     method: 'POST',
     body: JSON.stringify({ "inviteID": event.id }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -650,6 +662,7 @@ async function rejectInvite(event) {
     method: 'DELETE',
     body: JSON.stringify({ "inviteID": event.id }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -671,6 +684,7 @@ async function getMostRecentPosts() {
     method: 'POST',
     body: JSON.stringify({ "gapQuantity": postGap }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -768,22 +782,19 @@ async function getMostRecentPosts() {
         })
       } else {
         document.getElementById("mural-content").innerHTML = `
-            < !--Botão para abrir o modal-- >
           <button id="open-modal" class="btn btn-primary" onclick="openPublishModal()">Criar
           Publicação</button>
-          <!--Modal para criar uma publicação-- >
             <div id="publish-modal" class="modal" style="display:none;">
               <div class="modal-content">
                 <span class="close" onclick="closePublishModal()">&times;</span>
                 <h2>Criar Publicação</h2>
-                <input type="text" id="post-title" placeholder="Título da Postagem" required>
                   <textarea id="post-content" placeholder="Conteúdo da Postagem" required></textarea>
                   <input type="file" id="post-image" accept="image/*"> <!-- Campo para imagem -->
                      <label for="post-image" class="upload-icon">
                             <img src="../../Public/Image/simbolo-de-interface-de-camera-fotografica-para-botao.png"
                                 alt="Upload" class="icon">
                         </label>
-                  <button onclick="publishPost()">Publicar</button>
+                  <button onclick="createNewPost()">Publicar</button>
                   </div>
               </div>
               `
@@ -799,6 +810,7 @@ async function createNewPost() {
       "Descricao": document.getElementById(`post-content`).value
      }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -813,8 +825,7 @@ async function createNewPost() {
           const storageRef = storage.ref().child(`postagem/${myBlob.idPostagem}`);
           return storageRef.put(file)
             .then((snapshot) => {
-              console.log("Upload concluído com sucesso!", snapshot);
-              alert("Cadastro realizado com sucesso e imagem enviada!");
+              alert("Postagem Efetuada com sucesso");
             })
           }
       }
@@ -832,6 +843,7 @@ async function sendComment (postID) {
       "Texto": document.getElementById(`inputComment-${postID}`).value
      }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -855,6 +867,7 @@ async function likePost(postID) {
     method: 'POST',
     body: JSON.stringify({ "IDPostagem": postID, "tipo": "like" }),
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -885,6 +898,7 @@ async function removeLikePost(PostID) {
   await fetch(`${apiDeploy}/RemoverReacao/${PostID}`, {
     method: 'DELETE',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   })
@@ -904,6 +918,7 @@ async function finalSession() {
   await fetch(`${apiDeploy}/Out`, {
     method: 'GET',
     headers: {
+      'authorization': Cookies.get("tokenStorage"),
       'Content-Type': 'application/json'
     }
   }).then(e => {

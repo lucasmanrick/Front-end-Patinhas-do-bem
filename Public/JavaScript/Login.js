@@ -122,11 +122,12 @@ async function enviarDadosLogin(event) {
     });
 
     const resultado = await resposta.json();
-    if (resultado.auth) {
-      alert("Login realizado com sucesso!");
-      // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
-      // window.location.href = "../Pages/Feed.html";
+    if (resultado.auth === true) {
       console.log(resultado)
+      alert("Login realizado com sucesso!");
+      Cookies.set("tokenStorage",resultado.token)
+      // Redirecionar o usuário ou salvar o token no armazenamento local se necessário
+      window.location.href = "../Pages/Feed.html";
     } else {
       alert(`Erro: ${resultado.error}`);
     }
