@@ -227,7 +227,8 @@ async function validateForm(event) {
           alert("Nenhuma imagem selecionada para upload.");
         }
       } else {
-        alert("Erro no cadastro: " + (resultado.success || "Mensagem não especificada."));
+        console.log(resultado)
+        alert("Erro no cadastro: " + (resultado.success || "Mensagems não especificada."));
       }
     })
     .catch((erro) => {
