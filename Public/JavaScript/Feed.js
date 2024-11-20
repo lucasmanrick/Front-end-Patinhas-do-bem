@@ -721,7 +721,7 @@ async function getMostRecentPosts() {
             <div class="post-header">
               <div class="user-avatar">
                 <a>
-                  <img class="user-photo" src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}?alt=media}" alt="">
+                  <img class="user-photo" src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}?alt=media" alt="">
                 </a>
               </div>
 
