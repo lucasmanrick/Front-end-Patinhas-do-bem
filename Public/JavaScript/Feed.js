@@ -109,9 +109,9 @@ function getMyData() {
         Cookies.set("usuarioLogado", myBlob.meusDados.Nome)
         Cookies.set("usuarioID", myBlob.meusDados.ID)
 
-        Cookies.set("imagemUsuario", myBlob.meusDados.UserPicture)
+        Cookies.set("imagemUsuario", "https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${myBlob.meusDados.ID}?alt=media")
 
-        document.getElementById("userImage").src = `${myBlob.meusDados.UserPicture}`
+        document.getElementById("userImage").src = `https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${myBlob.meusDados.ID}?alt=media`
         document.getElementById("userNameContent").innerHTML = `<a href="./Perfil.html" style ="list-style:none">${myBlob.meusDados.Nome}</a>`
       } else {
         window.location("/LoginPage")
@@ -721,7 +721,7 @@ async function getMostRecentPosts() {
             <div class="post-header">
               <div class="user-avatar">
                 <a>
-                  <img class="user-photo" src="${e.UserPicture}" alt="">
+                  <img class="user-photo" src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}?alt=media" alt="">
                 </a>
               </div>
 

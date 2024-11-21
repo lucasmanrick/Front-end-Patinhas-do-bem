@@ -203,6 +203,7 @@ async function validateForm(event) {
   })
     .then((resposta) => resposta.json())
     .then((resultado) => {
+      console.log(resultado)
       if (resultado && resultado.success && resultado.success.includes("sucesso")) {
         const IDUsuario = resultado.IDUsuario;
         console.log("ID do usuário cadastrado:", IDUsuario);
@@ -227,7 +228,8 @@ async function validateForm(event) {
           alert("Nenhuma imagem selecionada para upload.");
         }
       } else {
-        alert("Erro no cadastro: " + (resultado.success || "Mensagem não especificada."));
+        console.log(resultado)
+        alert("Erro no cadastro: " + (resultado.success || "Mensagems não especificada."));
       }
     })
     .catch((erro) => {
