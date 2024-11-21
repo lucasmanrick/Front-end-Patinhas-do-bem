@@ -810,7 +810,9 @@ async function createNewPost() {
       return response.json();
     })
     .then(async function (myBlob) {
-      console.log("retorno",myBlob)
+      document.getElementById("post-content").textContent = "";
+      document.getElementById("post-image").files[0] = "";
+
       if (myBlob.success) {
         const file = document.getElementById("post-image").files[0];
         if (file) {
