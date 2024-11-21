@@ -796,6 +796,8 @@ async function getMostRecentPosts() {
 
 
 async function createNewPost() {
+
+  closePublishModal()
   await fetch(`${apiDeploy}/CriarPostagem`, {
     method: 'POST',
     body: JSON.stringify({ 
@@ -822,15 +824,17 @@ async function createNewPost() {
               alert("Postagem Efetuada com sucesso");
             })
           }
+      }else {
+        alert(myBlob.error)
       }
+
+      getMostRecentPosts()
     })
 }
 
 
 
 async function sendComment (postID) {
-  console.log("chegou")
-  console.log(document.getElementById(`inputComment-${postID}`).textContent)
   await fetch(`${apiDeploy}/comentarPost`, {
     method: 'POST',
     body: JSON.stringify({ "IDPostagem": postID,
@@ -845,7 +849,6 @@ async function sendComment (postID) {
       return response.json();
     })
     .then(async function (myBlob) {
-      console.log("retorno",myBlob)
       if (myBlob.success) {
         document.getElementById(`inputComment-${postID}`).value = ""
         alert("comentario efetuado com sucesso")
