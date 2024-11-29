@@ -747,7 +747,7 @@ async function getMostRecentPosts() {
 
             <div class="post-actions" id="interactContent-${e.ID}">
               <div class="reaction-section" >
-                <button class="reaction-button like-button" onclick="likePost(${e.ID},this)"> ${e.avaliei === true ? `<i class="fa-solid fa-thumbs-up" id="fa-like-${e.ID}"></i>` : `<i class="fa-regular fa-thumbs-up" id="fa-like-${e.ID}"></i>`} <div id="manyLikes-${e.ID}">${e.quantidadeDeLike ? `${e.quantidadeDeLike}</div>` : ''} </button>
+                <button class="reaction-button like-button" id="likeBtn-${e.ID}" onclick="likePost(${e.ID},this)"> ${e.avaliei === true ? `<i class="fa-solid fa-thumbs-up" id="fa-like-${e.ID}"></i>` : `<i class="fa-regular fa-thumbs-up" id="fa-like-${e.ID}"></i>`} <div class="setLikeBtn" id="manyLikes-${e.ID}">${e.quantidadeDeLike ? `${e.quantidadeDeLike}</div>` : ''} </button>
                 <button class="reaction-button comment-button"><i class="fas fa-comment"></i> Comentarios </button>
               </div>
             </div>
@@ -860,6 +860,10 @@ async function sendComment (postID) {
 
 
 async function likePost(postID) {
+  
+  const likeButton = document.getElementById(`likeBtn-${postID}`);
+  likeButton.disabled = true;
+
   await fetch(`${apiDeploy}/ReagirPostagem`, {
     method: 'POST',
     body: JSON.stringify({ "IDPostagem": postID, "tipo": "like" }),
@@ -877,12 +881,14 @@ async function likePost(postID) {
         document.getElementById(`fa-like-${postID}`).classList = []
         document.getElementById(`fa-like-${postID}`).classList = ["fa-solid fa-thumbs-up"]
         numManyLikes.trim() === ""? numManyLikes = 1:numManyLikes = parseInt(document.getElementById(`manyLikes-${postID}`).textContent) + 1 
-        document.getElementById(`manyLikes-${postID}`).innerHTML = numManyLikes
+        document.getElementById(`manyLikes-${postID}`).innerHTML = numManyLikes;
+        likeButton.disabled = false;
       } else if (myBlob.error === "você já avaliou este post") {
         numManyLikes = await parseInt(document.getElementById(`manyLikes-${postID}`).textContent) - 1
         document.getElementById(`manyLikes-${postID}`).innerHTML = numManyLikes
         document.getElementById(`fa-like-${postID}`).classList = ["fa-solid fa-thumbs-up"]
-        removeLikePost(postID)
+        await removeLikePost(postID)
+        likeButton.disabled = false;
       } else {
         console.error(myBlob.error)
       }
@@ -903,7 +909,7 @@ async function removeLikePost(PostID) {
     })
     .then(async function (myBlob) {
       if (myBlob.success) {
-        document.getElementById(`fa-like-${PostID}`).classList = ["fa-regular fa-thumbs-up"]
+        document.getElementById(`fa-like-${PostID}`).classList = ["fa-regular fa-thumbs-up"];
       }
     })
 }

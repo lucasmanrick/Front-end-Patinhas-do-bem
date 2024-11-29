@@ -1,4 +1,5 @@
 const apiDeploy = `https://tcc-patinhas-do-bem.onrender.com`
+
 // Função para alternar a exibição das seções "Meus pets" e "Postagens"
 function alternarSecao(secao) {
   // Oculta todas as seções inicialmente
@@ -23,7 +24,6 @@ function alternarSecao(secao) {
   }
 }
 
-
 // Função para alternar a exibição das seções "Meus pets" e "Postagens"
 function alternarSecao(secao) {
   // Oculta todas as seções inicialmente
@@ -34,36 +34,52 @@ function alternarSecao(secao) {
   document.getElementById(secao).style.display = "block";
 }
 
+
 // Função para buscar dados do perfil do usuário
 function buscarPerfilUsuario() {
-  fetch(`${apiDeploy}/MyProfile`, {
-    method: 'GET',
+  // Obtém o ID do cookie
+  const perfilUserID = Cookies.get("perfilSendoVisto");
+
+  if (!perfilUserID) {
+    console.error("ID do usuário não encontrado no cookie.");
+    return;
+  }
+
+  console.log(`Buscando perfil do usuário com ID: ${perfilUserID}`);
+
+  // Fazer a requisição para a rota correta
+  fetch(`${apiDeploy}/ProfileUser/${perfilUserID}`, {
+    method: "GET",
     headers: {
       'authorization': Cookies.get("tokenStorage"),
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw new Error('Erro ao buscar perfil do usuário');
+        throw new Error(
+          `Erro ao buscar perfil do usuário: ${response.statusText}`
+        );
       }
       return response.json();
     })
-    .then(data => {
-      console.log(data);
+    .then((data) => {
+      console.log("Dados recebidos do servidor:", data);
 
-      const postagem = data.minhasPostagens;
-      const dados = data.meusDados;
-      const pets = data.dadosMeusPets;
+      const postagem = data.postagensDoUsuario || [];
+      const dados = data.dadosUsuario || {};
+      const pets = data.dadosPetsUsuario || [];
 
       // Exibir dados do usuário
-      document.getElementById("nome-usuario").textContent = dados.Nome;
-      document.getElementById("usuario-email").textContent = dados.Email;
-      document.getElementById("usuario-estado").textContent = dados.Estado;
-      document.getElementById("usuario-cidade").textContent = dados.Cidade;
+      document.getElementById("nome-usuario").textContent =
+        dados.Nome || "Nome não disponível";
+      document.getElementById("usuario-estado").textContent =
+        dados.Estado || "Estado não disponível";
+      document.getElementById("usuario-cidade").textContent =
+        dados.Cidade || "Cidade não disponível";
 
-      exibirImagemUsuario(dados);
-
+      // Exibir a imagem do usuário
+      exibirImagemUsuario(perfilUserID);
 
       // Exibir pets
       estruturarDadosPets(pets);
@@ -71,9 +87,23 @@ function buscarPerfilUsuario() {
       // Exibir postagens
       exibirPostagens(postagem);
     })
-    .catch(error => {
-      console.error('Erro:', error);
+    .catch((error) => {
+      console.error("Erro ao buscar os dados do perfil:", error);
     });
+}
+
+// Função para exibir a imagem do usuário
+function exibirImagemUsuario(perfilUserID) {
+  // Seleciona a imagem pelo ID
+  const fotoUser = document.getElementById("foto-user");
+
+  if (perfilUserID) {
+    // Define o atributo 'src' com a URL da imagem usando o 'ID' do usuário
+    fotoUser.src = `https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${perfilUserID}?alt=media`;
+  } else {
+    console.error("ID do usuário não foi fornecido.");
+    fotoUser.src = "URL_DA_IMAGEM_PADRAO"; // URL para uma imagem padrão
+  }
 }
 
 // Função para estruturar e exibir os dados dos pets
@@ -88,7 +118,7 @@ function estruturarDadosPets(dadosMeusPets) {
   }
 
   // Itera sobre cada pet e estrutura as informações
-  dadosMeusPets.forEach(pets => {
+  dadosMeusPets.forEach((pets) => {
     const petElemento = document.createElement("div");
     petElemento.classList.add("pet-card");
 
@@ -98,7 +128,7 @@ function estruturarDadosPets(dadosMeusPets) {
     `;
 
     // Adiciona um evento de clique para abrir o modal com as informações do pet
-    petElemento.querySelector("img").onclick = function() {
+    petElemento.querySelector("img").onclick = function () {
       openPetModal(pets);
     };
 
@@ -109,8 +139,8 @@ function estruturarDadosPets(dadosMeusPets) {
 
 // Função para abrir o modal e mostrar as informações do pet
 function openPetModal(pets) {
-  const petModal = document.getElementById('petModal');
-  const petInfo = document.getElementById('pet-info');
+  const petModal = document.getElementById("petModal");
+  const petInfo = document.getElementById("pet-info");
 
   // Preenchendo o conteúdo do modal com as informações do pet
   petInfo.innerHTML = `
@@ -125,26 +155,22 @@ function openPetModal(pets) {
   `;
 
   // Exibindo o modal
-  petModal.style.display = 'flex';
+  petModal.style.display = "flex";
 }
 
 // Função para fechar o modal
 function closePetModal() {
-  const petModal = document.getElementById('petModal');
-  petModal.style.display = 'none';
+  const petModal = document.getElementById("petModal");
+  petModal.style.display = "none";
 }
-
 
 // Fechar o modal se clicar fora dele
 window.onclick = function (event) {
-  const petModal = document.getElementById('petModal');
+  const petModal = document.getElementById("petModal");
   if (event.target === petModal) {
     closePetModal();
   }
-}
-
-
-
+};
 
 // Função para exibir a lista de postagens do usuário
 function exibirPostagens(postagensUsuario) {
@@ -169,47 +195,8 @@ function exibirPostagens(postagensUsuario) {
   
 }
 
-
-
-
-
-
-
-
-
-
-
-function definirImagemPadrao() {
-  const fotoUser = document.getElementById("foto-user");
-  const urlPadrao = "https://via.placeholder.com/150";
-  
-  if (!fotoUser.src || fotoUser.src === window.location.href) {
-    fotoUser.src = urlPadrao;
-  }
-}
-
-
-
-
-
-
-
-
-function exibirImagemUsuario(dados) {
-  // Seleciona a imagem pelo ID
-  const fotoUser = document.getElementById("foto-user");
-
-  // Define o atributo 'src' com a URL da imagem usando o 'ID' do usuário
-  fotoUser.src = `https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${dados.ID}?alt=media`;
-}
-
-
-
-
-
 // Chame a função ao carregar a página
- buscarPerfilUsuario()
-
+document.addEventListener("DOMContentLoaded", buscarPerfilUsuario);
 
 // let countNewNotifies = 0;
 // let notifiesOnly = 0;
@@ -238,8 +225,6 @@ function exibirImagemUsuario(dados) {
 //           document.getElementById("notificationButton").innerHTML = ` <i class="fa-solid fa-bell"></i>
 //           ${countNewNotifies}`
 
-
-
 //           document.getElementById("bodyNotifies").innerHTML += ` <div class="notification">
 //                 <div class="notification-icon">
 //                   <i class="fas fa-comment"></i>
@@ -261,7 +246,6 @@ function exibirImagemUsuario(dados) {
 //     })
 // }
 
-
 // async function checkNotifies() {
 //   await fetch(`/MarcarNotificacoesVisto`, {
 //     method: 'PUT',
@@ -282,7 +266,6 @@ function exibirImagemUsuario(dados) {
 //       }
 //     })
 // }
-
 
 // async function myFriendInvites() {
 //   await fetch(`/MinhasSolicitacoes`, {
@@ -332,7 +315,6 @@ function exibirImagemUsuario(dados) {
 //     })
 // }
 
-
 // async function acceptInvite(event) {
 //   await fetch(`/AceitaSolicitacaoAmizade`, {
 //     method: 'POST',
@@ -353,9 +335,6 @@ function exibirImagemUsuario(dados) {
 //     })
 // }
 
-
-
-
 // async function rejectInvite(event) {
 //   await fetch(`/RemoveSolicitacao`, {
 //     method: 'DELETE',
@@ -375,58 +354,45 @@ function exibirImagemUsuario(dados) {
 //     })
 // }
 
-
-
 // Evento de clique para exibir a seção "Meus pets"
-document.getElementById("meus-pets-link").addEventListener("click", function (event) {
-  event.preventDefault();
-  alternarSecao("meus-pets");
-});
+document
+  .getElementById("meus-pets-link")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    alternarSecao("meus-pets");
+  });
 
 // Evento de clique para exibir a seção "Postagens"
-document.getElementById("postagens-link").addEventListener("click", function (event) {
-  event.preventDefault();
-  alternarSecao("postagens");
-});
-
-
+document
+  .getElementById("postagens-link")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    alternarSecao("postagens");
+  });
 
 // Botão "Início" redireciona para a página inicial
 // document.getElementById('inicio-button').addEventListener('click', function () {
 //     window.location.href = 'index.html'; // Altere para a URL desejada
 // });
 
-
-
-
 function showContent(menuId) {
   // Esconde todos os conteúdos
-  document.getElementById('mural-content').style.display = 'none';
-  document.getElementById('notifications-content').style.display = 'none';
-  document.getElementById('view-animals-content').style.display = 'none';
-  document.getElementById('Cadastrar-Pets').style.display = 'none'
+  document.getElementById("mural-content").style.display = "none";
+  document.getElementById("notifications-content").style.display = "none";
+  document.getElementById("view-animals-content").style.display = "none";
+  document.getElementById("Cadastrar-Pets").style.display = "none";
 
   // Mostra o conteúdo selecionado
-  if (menuId === 'mural') {
-    document.getElementById('mural-content').style.display = 'block';
+  if (menuId === "mural") {
+    document.getElementById("mural-content").style.display = "block";
+  } else if (menuId === "notifications") {
+    document.getElementById("notifications-content").style.display = "block";
+  } else if (menuId === "Cadastro") {
+    document.getElementById("Cadastrar-Pets").style.display = "block";
+  } else if (menuId === "view-animals") {
+    document.getElementById("view-animals-content").style.display = "block";
   }
-  else if (menuId === 'notifications') {
-    document.getElementById('notifications-content').style.display = 'block';
-  }
-  else if (menuId === 'Cadastro') {
-    document.getElementById('Cadastrar-Pets').style.display = 'block'
-  }
-  else if (menuId === 'view-animals') {
-    document.getElementById('view-animals-content').style.display = 'block';
-  }
-
 }
-
-
-
-
-
-
 
 // Função para abrir o modal
 function openModal(modalId) {
@@ -434,31 +400,26 @@ function openModal(modalId) {
   modal.show();
 
   // Fechar o modal quando clicar no fundo cinza
-  document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
-    backdrop.addEventListener('click', () => {
+  document.querySelectorAll(".modal-backdrop").forEach((backdrop) => {
+    backdrop.addEventListener("click", () => {
       modal.hide();
     });
   });
 }
 
-
-
-
-
-
 // Função para abrir o modal
 function abrirModal() {
-  document.getElementById('modal-editar').style.display = 'flex';
+  document.getElementById("modal-editar").style.display = "flex";
 }
 
 // Função para fechar o modal
 function fecharModal() {
-  document.getElementById('modal-editar').style.display = 'none';
+  document.getElementById("modal-editar").style.display = "none";
 }
 
 // Função para salvar a edição (adapte conforme a lógica do seu site)
 function salvarEdicao() {
-  const novoValor = document.getElementById('input-editar').value;
+  const novoValor = document.getElementById("input-editar").value;
   if (novoValor) {
     // Atualize o conteúdo do item aqui
     alert("Novo valor salvo: " + novoValor);
@@ -476,16 +437,32 @@ function excluirItem() {
   if (confirmacao) {
     // Lógica para remover o elemento ou item
     // Exemplo: remove um elemento do DOM
-    const elementoParaRemover = document.getElementById('idDoElemento');
+    const elementoParaRemover = document.getElementById("idDoElemento");
     elementoParaRemover.remove();
     alert("Item excluído com sucesso!");
   }
 }
+
+
+
+
+
+
+function definirImagemPadrao() {
+  const fotoUser = document.getElementById("foto-user");
+  const urlPadrao = "https://via.placeholder.com/150";
   
+  if (!fotoUser.src || fotoUser.src === window.location.href) {
+    fotoUser.src = urlPadrao;
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
   // Exibir "Meus pets" por padrão
   alternarSecao('meus-pets');
-
-
+  buscarPerfilUsuario();
+});
 
 
 
