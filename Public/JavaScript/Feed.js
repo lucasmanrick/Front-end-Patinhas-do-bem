@@ -194,9 +194,7 @@ function enviarMensagem() {
         if (myBlob.success) {
           const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
           socket.emit('sendMessage', dataMessage)
-          let mensagemTexto = document.createElement("p");
-          mensagemTexto.id = myBlob.idMensagem
-          chatBody.appendChild(mensagemTexto);
+          receberMensagem(chatInput)
         } else {
           let Mensagem = { messageSender: "SERVIDOR", message: "não foi possivel enviar a mensagem solicitada" }
           receberMensagem(Mensagem)
@@ -398,7 +396,7 @@ async function getingMyContacts() {
           myBlob.contatosDeInteresses.forEach(e => {
             document.getElementById('interestedContent').innerHTML += `
            <li id="${e.contatoID}" class="${e.Nome}" onclick="abrirChat(this)" style = "display:flex; align-items:center; gap:5px; cursor:pointer">
-              <div class="img1"><img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}.jpg?alt=media" alt=""></div>
+              <div class="img1"><img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}?alt=media" alt=""></div>
              ${e.Nome}
             </li>`
           })
@@ -408,7 +406,7 @@ async function getingMyContacts() {
           myBlob.contatosSemInteresses.forEach(e => {
             document.getElementById('listContent').innerHTML += `
           <li id="${e.contatoID}" class="${e.Nome}" onclick="abrirChat(this)" style = "display:flex; align-items:center; gap:5px; cursor:pointer">
-             <img class="img1" src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}.jpg?alt=media" alt="">
+             <img class="img1" src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDUsuario}?alt=media" alt="">
             ${e.Nome}
            </li>`
           })
