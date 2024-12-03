@@ -192,12 +192,9 @@ function enviarMensagem() {
       })
       .then(function (myBlob) {
         if (myBlob.success) {
-          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
+          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: "Você", myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
           socket.emit('sendMessage', dataMessage)
-          const myMessage = document.createElement("p")
-          myMessage.idmensagem = myBlob.idMensagem
-          myMessage.innerText = chatInput
-          chatBody.appendChild(myMessage)
+          receberMensagem (dataMessage)
         } else {
           let Mensagem = { messageSender: "SERVIDOR", message: "não foi possivel enviar a mensagem solicitada" }
           receberMensagem(Mensagem)
