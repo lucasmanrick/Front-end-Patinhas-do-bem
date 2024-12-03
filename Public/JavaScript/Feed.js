@@ -133,6 +133,7 @@ getMyData();
 const socket = io();
 
 socket.on('sendMessage', (msg) => {
+  console.log(msg)
   receberMensagem(msg)
 })
 
@@ -191,7 +192,9 @@ function enviarMensagem() {
       .then(function (myBlob) {
         if (myBlob.success) {
           const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
+          console.log("enviando mensagem")
           socket.emit('sendMessage', dataMessage)
+          console.log("mensagem enviada")
           let mensagemTexto = document.createElement("p");
           mensagemTexto.id = myBlob.idMensagem
           chatBody.appendChild(mensagemTexto);
@@ -609,7 +612,7 @@ async function myFriendInvites() {
           document.getElementById("inviteBody").innerHTML += `
                 <div class="d-flex align-items-center">
                   <!-- Foto de Perfil -->
-                  <img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDSolicitante}.jpg?alt=media}" alt="Foto de Perfil" class="rounded-circle me-3">
+                  <img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${e.IDSolicitante}?alt=media" alt="Foto de Perfil" class="rounded-circle me-3">
                   <!-- Nome do Usuário -->
                   <div>
                     <p class="mb-0"><strong>${e.Nome}</strong></p>
@@ -650,6 +653,8 @@ async function acceptInvite(event) {
         alert("Solicitação de amizade aceita.")
         await getingMyContacts()
         await friendInvites()
+      }else {
+        console.log(myBlob)
       }
     })
 }
