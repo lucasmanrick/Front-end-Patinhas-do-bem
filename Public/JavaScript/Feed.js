@@ -140,6 +140,7 @@ socket.on('sendMessage', (msg) => {
 
 
 function receberMensagem(mensagem) {
+  console.log(mensagem)
   var chatBody = document.getElementById("chat-body");
   var chatImage = document.getElementById("chat-image").files[0];
 
@@ -192,9 +193,12 @@ function enviarMensagem() {
       })
       .then(function (myBlob) {
         if (myBlob.success) {
-          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: "Você", myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
+          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
           socket.emit('sendMessage', dataMessage)
-          receberMensagem (dataMessage)
+          let mensagemTexto = document.createElement("p");
+          mensagemTexto.id = myBlob.idMensagem
+          mensagemTexto.innerText = chatInput
+          chatBody.appendChild(mensagemTexto);
         } else {
           let Mensagem = { messageSender: "SERVIDOR", message: "não foi possivel enviar a mensagem solicitada" }
           receberMensagem(Mensagem)
