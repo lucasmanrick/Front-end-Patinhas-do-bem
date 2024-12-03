@@ -130,7 +130,9 @@ getMyData();
 //CODIGO DO CHAT EM TEMPO REAL, MANUNTENÇÕES FALAR COM LUCAS.
 
 //ENVIAR MENSAGEM E PUXAR MENSAGENS COM UM CONTATO
-const socket = io();
+const socket = io('https://tcc-patinhas-do-bem.onrender.com',{
+  transports: ['websocket']
+});
 
 socket.on('sendMessage', (msg) => {
   console.log(msg)
