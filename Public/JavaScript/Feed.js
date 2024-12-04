@@ -194,7 +194,7 @@ function enviarMensagem() {
       })
       .then(function (myBlob) {
         if (myBlob.success) {
-          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
+          const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, myName: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
           socket.emit('sendMessage', dataMessage)
         } else {
           let Mensagem = { messageSender: "SERVIDOR", message: "não foi possivel enviar a mensagem solicitada" }
@@ -240,7 +240,6 @@ function abrirChat(dataUsers) {
       return response.json();
     })
     .then(function (myBlob) {
-      console.log(myBlob)
       let mensagem = {}
       if (myBlob.success) {
         myBlob.messages.forEach(e => {
