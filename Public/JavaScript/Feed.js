@@ -135,6 +135,7 @@ const socket = io('https://tcc-patinhas-do-bem.onrender.com',{
 });
 
 socket.on('sendMessage', (msg) => {
+  console.log(msg)
   receberMensagem(msg)
 })
 
@@ -195,10 +196,6 @@ function enviarMensagem() {
         if (myBlob.success) {
           const dataMessage = { contatoID: storageContact.contactID, messageText: chatInput, messageSender: Cookies.get("usuarioLogado"), myID: Cookies.get("usuarioID"), idMensagem: myBlob.idMensagem }
           socket.emit('sendMessage', dataMessage)
-          let mensagemTexto = document.createElement("p");
-          mensagemTexto.id = myBlob.idMensagem
-          mensagemTexto.innerText = chatInput
-          chatBody.appendChild(mensagemTexto);
         } else {
           let Mensagem = { messageSender: "SERVIDOR", message: "não foi possivel enviar a mensagem solicitada" }
           receberMensagem(Mensagem)
