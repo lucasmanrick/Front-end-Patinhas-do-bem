@@ -12,7 +12,8 @@ document.addEventListener('click', function (event) {
 });
 
 
-function showContent(menuId) {
+async function showContent(menuId) {
+  await getMyNotifies ();
   // Esconde todos os conteúdos
   document.getElementById('mural-content').style.display = 'none';
   document.getElementById('notifications-content').style.display = 'none';
@@ -528,12 +529,14 @@ async function getMyNotifies() {
       console.log(myBlob)
       if (myBlob.success) {
         document.getElementById("bodyNotifies").innerHTML = ``
+        countNewNotifies = 0;
+        notifiesOnly = 0;
         myBlob.notifications.forEach(e => {
           if (e.MensagemVisualizada == "False") {
             countNewNotifies = countNewNotifies + 1;
             notifiesOnly = notifiesOnly + 1;
           }
-
+          
           document.getElementById("notificationButton").innerHTML = ` <i class="fa-solid fa-bell"></i>
           ${countNewNotifies}`
 
