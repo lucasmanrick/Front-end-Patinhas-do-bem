@@ -507,3 +507,88 @@ function fecharModal() {
   // Oculta o modal
   modal.style.display = "none";
 }
+
+
+
+function cadastrarPet() {
+
+  // Campos do formulário de cadastro de pet
+  const tipo = document.getElementById("TipoAnimal").value.trim();
+  const raca = document.getElementById("raca").value.trim();
+  const idade = document.getElementById("idade").value.trim();
+  const sexo = document.getElementById("sexo").value.trim();
+  const cor = document.getElementById("cor").value.trim();
+  const descricao = document.getElementById("descricao").value.trim();
+  const imagem = document.getElementById("post-image").files[0]; // Imagem do pet
+
+  // Verificação dos campos
+  if (!tipo || !raca || !idade || !sexo || !cor || !descricao || !imagem) {
+    alert("Por favor, preencha todos os campos corretamente!");
+    return false;
+  }
+
+  // Dados do formulário
+  const dadosPet = {
+    TipoAnimal: tipo,
+    Linhagem: raca,
+    Idade: idade,
+    Sexo: sexo,
+    Cor: cor,
+    Descricao: descricao,
+  };
+
+  // Envia os dados do formulário ao backend
+  fetch(`${apiDeploy}/CadastraPet`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'authorization': Cookies.get("tokenStorage")
+    },
+    body: JSON.stringify(dadosPet),
+  })
+    .then((resposta) => resposta.json())
+    .then((resultado) => {
+      console.log(resultado.data);
+      if (resultado && resultado.success && resultado.success.includes("sucesso")) {
+        const IDPet = resultado.idDoPet;
+        console.log("ID do pet cadastrado:", IDPet);
+
+        // Fazer upload da imagem para o Firebase usando o ID do pet
+        if (imagem) {
+          const storageRef = firebase.storage().ref().child(`pets/${IDPet}`);
+          return storageRef.put(imagem)
+            .then((snapshot) => {
+              console.log("Upload da imagem concluído com sucesso!", snapshot);
+              alert("Cadastro realizado com sucesso e imagem enviada!");
+
+              // Limpar campos do formulário
+              clearPetForm();
+            })
+            .catch((error) => {
+              console.error("Erro ao fazer upload da imagem:", error);
+              alert("Erro ao enviar a imagem. Por favor, tente novamente.");
+            });
+        } else {
+          alert("Nenhuma imagem selecionada para upload.");
+        }
+      } else {
+        alert("Erro no cadastro: " + (resultado.success || "Mensagem não especificada."));
+      }
+    })
+    .catch((erro) => {
+      console.error("Erro ao enviar dados:", erro);
+      alert("Ocorreu um erro ao tentar enviar os dados. Por favor, tente novamente mais tarde.");
+    });
+}
+
+// Função para limpar os campos do formulário
+function clearPetForm() {
+  document.getElementById("TipoAnimal").value = "";
+  document.getElementById("raca").value = "";
+  document.getElementById("idade").value = "";
+  document.getElementById("sexo").value = "";
+  document.getElementById("cor").value = "";
+  document.getElementById("descricao").value = "";
+  document.getElementById("post-image").value = ""; // Limpa o campo de imagem
+  document.body.className = "sign-in-js";
+}

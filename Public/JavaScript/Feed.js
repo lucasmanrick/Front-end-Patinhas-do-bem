@@ -300,6 +300,7 @@ async function getingPets() {
       return response.json();
     })
     .then(function (myBlob) {
+      console.log(myBlob)
       if (myBlob.success) {
         document.getElementById('view-animals-content').innerHTML = `<h2>Animais para adoção</h2> 
           <button style="padding: 10px; border: 1px solid; background-color:#4A5C6A ; color:white" onclick="getMyInterests()"><i class="fa-regular fa-heart"></i>  Meus Interesses</button>`
@@ -456,7 +457,7 @@ async function getMyInterests() {
                  '<button class="btn-interesse" style = "background-color:red" id="${e.ID}" onclick = "removeInterest(this)">Remover Interesse no pet</button>'
                 </div>
                 <div class="animal-post">
-                  <img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/pets%2F${e.ID}.jpg?alt=media" alt="Imagem do animal" class="animal-photo">
+                  <img src="https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/pets%2F${e.ID}?alt=media" alt="Imagem do animal" class="animal-photo">
                 </div>
               </div>
             `

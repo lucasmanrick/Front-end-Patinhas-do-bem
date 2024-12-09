@@ -45,7 +45,6 @@ function buscarPerfilUsuario() {
     return;
   }
 
-  console.log(`Buscando perfil do usuário com ID: ${perfilUserID}`);
 
   // Fazer a requisição para a rota correta
   fetch(`${apiDeploy}/ProfileUser/${perfilUserID}`, {
