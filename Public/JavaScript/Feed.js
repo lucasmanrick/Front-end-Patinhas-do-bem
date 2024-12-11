@@ -14,6 +14,7 @@ document.addEventListener('click', function (event) {
 
 async function showContent(menuId) {
   await getMyNotifies ();
+  await getMostRecentPosts();
   // Esconde todos os conteúdos
   document.getElementById('mural-content').style.display = 'none';
   document.getElementById('notifications-content').style.display = 'none';
@@ -768,13 +769,14 @@ async function getMostRecentPosts() {
               <div>
                 <div class = "userCommentContent" style="display:flex; align-items:center; gap:5px">
                   <img style ="border-radius:50%;width:30px;height:30px" src = "https://firebasestorage.googleapis.com/v0/b/patinhasdobem-f25f8.appspot.com/o/perfil%2F${y.IDUsuario}?alt=media">
-                  <div> <a href="./Users.html" onclick="perfilUser(${y.IDUsuario})" style="text-decoration:none; font-size:13px">${y.Nome}</a></div> 
+                  <div> <a href="./Users.html" onclick="perfilUser(${y.IDUsuario})" style="color:black ;text-decoration:none; font-size:13px">${y.Nome}</a></div> 
                 </div>
                <p style=" display:flex;flex-direction:column"><p style="font-size:14px;color:#808080;">${y.Texto}</<p><p style="font-size:10px">${data.toLocaleString('pt-BR')}</<p></p> 
               <hr>
               </div > `
           })
 
+          //adiciona a seção de enviar um comentário a cada post do feed
           document.getElementById(`interactContent-${e.ID}`).innerHTML += `
                <div class="comment-section" style = "display: flex;">
                 <textarea class="comment-input" id="inputComment-${e.ID}" placeholder="Escreva um comentário..."></textarea>
